@@ -123,10 +123,15 @@ class WorktimesMemacs(Memacs):
 
         if len(opened) != 0:
             for place, opening in opened.iteritems():
-                if opening['time'] != parsed[-1]['time']:
-                    logging.error('worktimes: not clocked out from \'{}\' from {}'.format(place, opening['time']))
-                    sys.exit(1)
                 now = int(time.time())
+                if opening['time'] != parsed[-1]['time']:
+                    if now - opening['time'] > 60 * 40:
+                        logging.error('worktimes: not clocked out from \'{}\' from {}'.format(place, opening['time']))
+                        sys.exit(1)
+                    else:
+                        logging.error('worktimes: not clocked out from \'{}\' from {}, but still hoping.'.
+                                      format(place, opening['time']))
+                        continue
                 artificial_end = {'place': place,
                                   'event': 'out',
                                   'time': now}
