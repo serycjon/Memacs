@@ -55,7 +55,6 @@ class WorktimesMemacs(Memacs):
                 'time': time }
 
     def _process_range(self, start, stop):
-        output = "Stayed at: {}".format(start['place'])
         start_dt = time.localtime(start['time'])
         start_timestamp = OrgFormat.datetime(start_dt)
 
@@ -71,6 +70,7 @@ class WorktimesMemacs(Memacs):
         s = m[1]  # seconds
 
         duration_string = '{:d}:{:02d}'.format(24*d[0] + h[0], m[0])
+        output = "Stayed at: {} for {}".format(start['place'], duration_string)
 
         data_for_hashing = output + range_timestamp
         properties = OrgProperties(data_for_hashing=data_for_hashing)
