@@ -4,7 +4,8 @@
 import os
 import sys
 import logging
-import time, datetime
+import time
+import datetime
 import pytz
 from lib.memacs import Memacs
 from lib.orgformat import OrgFormat
@@ -33,8 +34,8 @@ class WorktimesMemacs(Memacs):
         all additional arguments are parsed in here
         """
         Memacs._parser_parse_args(self)
-        if not (os.path.exists(self._args.worktimescsvfile) or \
-                     os.access(self._args.worktimescsvfile, os.R_OK)):
+        if not (os.path.exists(self._args.worktimescsvfile) or
+                os.access(self._args.worktimescsvfile, os.R_OK)):
             self._parser.error("input file not found or not readable")
 
     def _parse_entry(self, row):
@@ -52,7 +53,7 @@ class WorktimesMemacs(Memacs):
 
         return {'place': place_tag,
                 'event': event,
-                'time': time }
+                'time': time}
 
     def _process_range(self, start, stop):
         start_dt = time.localtime(start['time'])
@@ -69,7 +70,7 @@ class WorktimesMemacs(Memacs):
         m = divmod(h[1], 60)  # minutes
         s = m[1]  # seconds
 
-        duration_string = '{:d}:{:02d}'.format(24*d[0] + h[0], m[0])
+        duration_string = '{:d}:{:02d}'.format(24 * d[0] + h[0], m[0])
         output = "Stayed at: {} for {}".format(start['place'], duration_string)
 
         data_for_hashing = output + range_timestamp
@@ -81,7 +82,7 @@ class WorktimesMemacs(Memacs):
                                        timestamp=range_timestamp,
                                        properties=properties,
                                        tags=[start['place']])
-    
+
     def _main(self):
         """
         gets called automatically from Memacs class.
